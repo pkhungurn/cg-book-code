@@ -24,9 +24,9 @@ if (!gl) {
         "MAX_COLOR_ATTACHMENTS",
         "MAX_DRAW_BUFFERS"
     ];
-    var tableRows = paramNames.map(function (paramName) {
-        var parmID = gl[paramName] || debugInfo[paramName];
-        var value = gl.getParameter(parmID);
+    var tableRows = paramNames.map(paramName => {
+        var paramID = gl[paramName] || debugInfo[paramName];
+        var value = gl.getParameter(paramID);
         return "<tr><td>" + paramName + "</td><td>" + String(value) + "</td></tr>"
     });
     var paramsTableHtml = "<table cellpadding='5' border='1'>" +
