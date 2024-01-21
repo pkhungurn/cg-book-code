@@ -20,9 +20,9 @@ if (!gl) {
     function updateWebGL() {        
         var rgb = rgbSliders.map((rgbSlider) => rgbSlider.slider("value") / 255.0);
         
+        gl.viewport(128,128,256,256);
         gl.enable(gl.SCISSOR_TEST);
         gl.scissor(128,128,256,256);
-        gl.viewport(128,128,256,256);
     
         gl.clearColor(rgb[0], rgb[1], rgb[2], 0.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
