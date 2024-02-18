@@ -8,9 +8,10 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                path.resolve(__dirname, "src", "index.html"),
-                path.posix.join(path.resolve(__dirname, "src").replace(/\\/g, "/"), "*.vert"),
-                path.posix.join(path.resolve(__dirname, "src").replace(/\\/g, "/"), "*.frag"),
+                "src/index.html",
+                "src/vertex-shader.vert",
+                "src/fragment-shader-0.frag",
+                "src/fragment-shader-1.frag",
             ]
         }),
     ],

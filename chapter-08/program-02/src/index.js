@@ -1,13 +1,13 @@
 const $ = require('jquery');
 
-var canvas = $("#webglCanvas");
-var gl = canvas[0].getContext("webgl2");
+let canvas = $("#webglCanvas");
+let gl = canvas[0].getContext("webgl2");
 if (!gl) {
     alert("Cannot get WebGL 2 context!");
 } else {
     // Fetch and display OpenGL parameters.
-    var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-    var paramNames = [
+    let debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    let paramNames = [
         "UNMASKED_VENDOR_WEBGL",
         "UNMASKED_RENDERER_WEBGL",
         "MAX_TEXTURE_SIZE",
@@ -24,23 +24,23 @@ if (!gl) {
         "MAX_COLOR_ATTACHMENTS",
         "MAX_DRAW_BUFFERS"
     ];
-    var tableRows = paramNames.map(paramName => {
-        var paramID = gl[paramName] || debugInfo[paramName];
-        var value = gl.getParameter(paramID);
+    let tableRows = paramNames.map(paramName => {
+        let paramID = gl[paramName] || debugInfo[paramName];
+        let value = gl.getParameter(paramID);
         return "<tr><td>" + paramName + "</td><td>" + String(value) + "</td></tr>"
     });
-    var paramsTableHtml = "<table cellpadding='5' border='1'>" +
+    let paramsTableHtml = "<table cellpadding='5' border='1'>" +
             "<thead><th>Name</th><th>Value</th></thead>" +
             tableRows.join("") +
             "</table>";
     $("#paramsTable").html(paramsTableHtml);
 
     // Fetch and list supported extensions.
-    var extensions = gl.getSupportedExtensions();
-    var extensionItems = extensions.map(function (extension) {
+    let extensions = gl.getSupportedExtensions();
+    let extensionItems = extensions.map(function (extension) {
         return "<li>" + extension + "</li>"
     });
-    var extensionListHtml = "<ul>" + extensionItems.join("") + "</ul>";
+    let extensionListHtml = "<ul>" + extensionItems.join("") + "</ul>";
     $("#extensionList").html(extensionListHtml)
 }
 
