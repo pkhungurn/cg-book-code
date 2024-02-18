@@ -1,5 +1,10 @@
 const $ = require('jquery');
 
+async function loadText(url) {
+    let fetchResult = await fetch(url);
+    return fetchResult.text();
+}
+
 function createShader(gl, shaderType, shaderSource) {
     // Step 1: Create the shader.
     let shader = gl.createShader(shaderType);
@@ -46,9 +51,11 @@ function createGlslProgram(gl, vertexShaderSource, fragmentShaderSource) {
     }
 }
 
+let lastProgram = null;
+
 function reportCurrentProgram(gl) {
     // Get the program being used.
-    var currentProgram = gl.getParameter(gl.CURRENT_PROGRAM);
+    let currentProgram = gl.getParameter(gl.CURRENT_PROGRAM);
     if (currentProgram != lastProgram) {
         if (!currentProgram) {
             alert("Currently not using any program.");
@@ -60,22 +67,38 @@ function reportCurrentProgram(gl) {
     lastProgram = currentProgram;
 }
  
-function updateWebGL(gl) {
+function updateWebGL(gl, programs) {
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-
+    
     // Use the program.
-    var programName = $("#programName").val();
+    let programName = $("#programName").val();
     if (programName == "program0") {
-        gl.useProgram(program0);
+        gl.useProgram(programs[0]);
     } else if (programName == "program1") {
-        gl.useProgram(program1);
+        gl.useProgram(programs[1]);
     } else {
         gl.useProgram(null)
     }
     reportCurrentProgram(gl);
 
-    window.requestAnimationFrame(() => updateWebGL(gl));
+    window.requestAnimationFrame(() => updateWebGL(gl, programs));
+}
+
+async function createPrograms(gl) {
+    let vertexShaderSource = await loadText("vertex-shader.vert");
+    let fragmentShader0Source = await loadText("fragment-shader-0.frag");
+    let fragmentShader1Source = await loadText("fragment-shader-1.frag");
+
+    let program0 = createGlslProgram(gl, vertexShaderSource, fragmentShader0Source);
+    program0.name = "program0";
+
+    let program1 = createGlslProgram(gl, vertexShaderSource, fragmentShader1Source);
+    program1.name = "program1";
+
+    lastProgram = program0;
+
+    return [program0, program1];
 }
 
 let canvas = $("#webglCanvas");
@@ -83,17 +106,7 @@ gl = canvas[0].getContext("webgl2");
 if (!gl) {
     alert("Cannot get WebGL 2 context!");
 } else {
-    let vertexShaderSource = $("#vertexShader")[0].textContent;
-    let fragmentShader0Source = $("#fragment0")[0].innerText;
-    let fragmentShader1Source = $("#fragment1")[0].innerText;
-
-    console.log(vertexShaderSource);
-
-    var program0 = createGlslProgram(gl, vertexShaderSource, fragmentShader0Source);
-    program0.name = "program0";
-
-    var program1 = createGlslProgram(gl, vertexShaderSource, fragmentShader1Source);
-    program1.name = "program1";
-    
-    window.requestAnimationFrame(() => updateWebGL(gl));
+    createPrograms(gl).then(programs => {
+        window.requestAnimationFrame(() => updateWebGL(gl, programs));
+    });    
 }
