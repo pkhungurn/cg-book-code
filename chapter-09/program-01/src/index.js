@@ -1,54 +1,25 @@
 const $ = require('jquery');
+import { createGlslProgram } from './program';
 
 async function loadText(url) {
     let fetchResult = await fetch(url);
     return fetchResult.text();
 }
 
-function createShader(gl, shaderType, shaderSource) {
-    // Step 1: Create the shader.
-    let shader = gl.createShader(shaderType);
+async function createPrograms(gl) {
+    let vertexShaderSource = await loadText("vertex-shader.vert");
+    let fragmentShader0Source = await loadText("fragment-shader-0.frag");
+    let fragmentShader1Source = await loadText("fragment-shader-1.frag");
 
-    // Step 2: Set the shader source.
-    gl.shaderSource(shader, shaderSource);
+    let program0 = createGlslProgram(gl, vertexShaderSource, fragmentShader0Source);
+    program0.name = "program0";
 
-    // Step 3: Compile the shader.
-    gl.compileShader(shader);
+    let program1 = createGlslProgram(gl, vertexShaderSource, fragmentShader1Source);
+    program1.name = "program1";
 
-    // Step 4: Check for errors.
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        let infoLog = gl.getShaderInfoLog(shader);
-        gl.deleteShader(shader);
-        throw new Error("An error occurred compiling the shader: " + infoLog);
-    } else {
-        return shader;
-    }
-}
+    lastProgram = program0;
 
-function createGlslProgram(gl, vertexShaderSource, fragmentShaderSource) {
-    // Step 1: Create a program object.
-    let program = gl.createProgram();
-
-    // Step 2: Create an attach the shaders.
-    let vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-    gl.attachShader(program, vertexShader);
-    let fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
-    gl.attachShader(program, fragmentShader);
-
-    // Step 3: Link the program.
-    gl.linkProgram(program);
-
-    // Step 4: Validate the program.
-    gl.validateProgram(program);
-
-    // Step 4: Check for errors.
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        let infoLog = gl.getProgramInfoLog(program);
-        gl.deleteProgram(program);
-        throw new Error("An error occurred linking the program: " + infoLog);
-    } else {
-        return program;
-    }
+    return [program0, program1];
 }
 
 let lastProgram = null;
@@ -85,24 +56,8 @@ function updateWebGL(gl, programs) {
     window.requestAnimationFrame(() => updateWebGL(gl, programs));
 }
 
-async function createPrograms(gl) {
-    let vertexShaderSource = await loadText("vertex-shader.vert");
-    let fragmentShader0Source = await loadText("fragment-shader-0.frag");
-    let fragmentShader1Source = await loadText("fragment-shader-1.frag");
-
-    let program0 = createGlslProgram(gl, vertexShaderSource, fragmentShader0Source);
-    program0.name = "program0";
-
-    let program1 = createGlslProgram(gl, vertexShaderSource, fragmentShader1Source);
-    program1.name = "program1";
-
-    lastProgram = program0;
-
-    return [program0, program1];
-}
-
 let canvas = $("#webglCanvas");
-gl = canvas[0].getContext("webgl2");
+let gl = canvas[0].getContext("webgl2");
 if (!gl) {
     alert("Cannot get WebGL 2 context!");
 } else {
