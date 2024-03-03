@@ -1,9 +1,9 @@
-function createShader(gl, shaderType, shaderSource) {
+function createShader(gl, shaderType, sourceCode) {
     // Step 1: Create the shader.
     let shader = gl.createShader(shaderType);
 
     // Step 2: Set the shader source.
-    gl.shaderSource(shader, shaderSource);
+    gl.shaderSource(shader, sourceCode);
 
     // Step 3: Compile the shader.
     gl.compileShader(shader);
@@ -17,6 +17,7 @@ function createShader(gl, shaderType, shaderSource) {
         return shader;
     }
 }
+
 exports.createShader = createShader;
 
 function createGlslProgram(gl, vertexShaderSource, fragmentShaderSource) {
