@@ -10,12 +10,12 @@ function createShader(gl, shaderType, sourceCode) {
 
     // Step 4: Check for errors.
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        let infoLog = gl.getShaderInfoLog(shader);
-        gl.deleteShader(shader);
-        throw new Error("An error occurred compiling the shader: " + infoLog);
-    } else {
         return shader;
     }
+
+    let infoLog = gl.getShaderInfoLog(shader);
+    gl.deleteShader(shader);
+    throw new Error("An error occurred compiling the shader: " + infoLog);
 }
 
 exports.createShader = createShader;
