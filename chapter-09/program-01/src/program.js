@@ -37,13 +37,15 @@ function createGlslProgram(gl, vertexShaderSource, fragmentShaderSource) {
     gl.validateProgram(program);
 
     // Step 5: Check for errors.
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        let infoLog = gl.getProgramInfoLog(program);
-        gl.deleteProgram(program);
-        throw new Error("An error occurred linking the program: " + infoLog);
-    } else {
+    if (gl.getProgramParameter(program, gl.LINK_STATUS)) {        
         return program;
     }
+
+    let infoLog = gl.getProgramInfoLog(program);
+    gl.deleteProgram(program);
+    gl.deleteShader(vertexShader);
+    gl.deleteShaer(fragmentShader);
+    throw new Error("An error occurred linking the program: " + infoLog);
 }
 
 exports.createGlslProgram = createGlslProgram;
