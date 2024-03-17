@@ -13,6 +13,7 @@ function createShader(gl, shaderType, sourceCode) {
         return shader;
     }
 
+    // Step 5: Clean up if there are errors.
     let infoLog = gl.getShaderInfoLog(shader);
     gl.deleteShader(shader);
     throw new Error("An error occurred compiling the shader: " + infoLog);
@@ -41,6 +42,7 @@ function createGlslProgram(gl, vertexShaderSource, fragmentShaderSource) {
         return program;
     }
 
+    // Step 6: Clean up if there are errors.
     let infoLog = gl.getProgramInfoLog(program);
     gl.deleteProgram(program);
     gl.deleteShader(vertexShader);
