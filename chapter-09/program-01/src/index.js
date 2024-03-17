@@ -17,8 +17,6 @@ async function createPrograms(gl) {
     let program1 = createGlslProgram(gl, vertexShaderSource, fragmentShader1Source);
     program1.name = "program1";
 
-    lastProgram = program0;
-
     return [program0, program1];
 }
 
@@ -62,6 +60,8 @@ if (!gl) {
     alert("Cannot get WebGL 2 context!");
 } else {
     createPrograms(gl).then(programs => {
+        gl.useProgram(programs[0]);
+        lastProgram = programs[0];
         window.requestAnimationFrame(() => updateWebGL(gl, programs));
     });    
 }
