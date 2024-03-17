@@ -9,7 +9,7 @@ function createShader(gl, shaderType, sourceCode) {
     gl.compileShader(shader);
 
     // Step 4: Check for errors.
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
         return shader;
     }
 
