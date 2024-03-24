@@ -14,15 +14,15 @@ async function createProgram(gl) {
 
 function createVertexBuffer(gl) {
     // Step 1: Create an array containing the data.
-    let vertexData = [
+    var vertexData = [
         -0.5, -0.5, 0.0,
         0.5, -0.5, 0.0,
         0.5, 0.5, 0.0
     ];
     // Step 2: Create a Float32Array from the data.
-    let vertexArray = new Float32Array(vertexData);
+    var vertexArray = new Float32Array(vertexData);
     // Step 3: Create a buffer object.
-    let vertexBuffer = gl.createBuffer();
+    var vertexBuffer = gl.createBuffer();
     // Step 4: Bind the buffer to the ARRAY_BUFFER target.
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     // Step 5: Transfer the buffer data.
@@ -38,7 +38,7 @@ function updateWebGL(gl, program, vertexBuffer) {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // ****************************
-    // * Drawing point primitives *
+    // * Drawing triangles primitives *
     // ****************************
     // Step 1: Use the program.
     gl.useProgram(program);
@@ -53,7 +53,7 @@ function updateWebGL(gl, program, vertexBuffer) {
     // Step 6: Unbind the buffer.
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
     // Step 7: Draw.
-    gl.drawArrays(gl.POINTS, 0, 3);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
     // Step 8: Unuse the program.
     gl.useProgram(null);
 

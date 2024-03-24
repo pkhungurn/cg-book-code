@@ -17,7 +17,10 @@ function createVertexBuffer(gl) {
     let vertexData = [
         -0.5, -0.5, 0.0,
         0.5, -0.5, 0.0,
-        0.5, 0.5, 0.0
+        0.5, -0.5, 0.0,
+        0.5, 0.5, 0.0,
+        0.5, 0.5, 0.0,
+        -0.5, -0.5, 0.0
     ];
     // Step 2: Create a Float32Array from the data.
     let vertexArray = new Float32Array(vertexData);
@@ -38,7 +41,7 @@ function updateWebGL(gl, program, vertexBuffer) {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // ****************************
-    // * Drawing point primitives *
+    // * Drawing line primitives *
     // ****************************
     // Step 1: Use the program.
     gl.useProgram(program);
@@ -53,7 +56,7 @@ function updateWebGL(gl, program, vertexBuffer) {
     // Step 6: Unbind the buffer.
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
     // Step 7: Draw.
-    gl.drawArrays(gl.POINTS, 0, 3);
+    gl.drawArrays(gl.LINES, 0, 6);
     // Step 8: Unuse the program.
     gl.useProgram(null);
 
