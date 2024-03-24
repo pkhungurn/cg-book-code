@@ -37,7 +37,7 @@ function createVertexBuffer(gl) {
 function createIndexBuffer(gl) {
     // Step 1: Create an array containing the data.
     let indexData = [
-        0, 2, 3, 0, 1, 2,
+        0, 1, 2, 0, 2, 3
     ]
     // Step 2: Create a Uint32Array (or Uint16Array) from the data.
     let indexArray = new Uint32Array(indexData);
