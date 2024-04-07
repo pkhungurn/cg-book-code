@@ -1,5 +1,6 @@
 const $ = require('jquery');
 import { createGlslProgram } from './program';
+import { createVertexBuffer } from './vertex-buffer';
 
 async function loadText(url) {
     let fetchResult = await fetch(url);
@@ -47,21 +48,13 @@ if (!gl) {
  
     // **************************
     // * Creating vertex buffer *
-    // **************************
-    // Step 1: Create a typed array containing the data.
+    // **************************    
     let vertexData = new Float32Array([
         -0.5, -0.5, 0.0,
         0.5, -0.5, 0.0,
         0.5, 0.5, 0.0
     ]);
-    // Step 2: Create a buffer object.
-    let vertexBuffer = gl.createBuffer();
-    // Step 3: Bind the buffer to the ARRAY_BUFFER target.
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    // Step 4: Transfer the buffer data.
-    gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
-    // Step 5: Unbind the buffer.
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    let vertexBuffer = createVertexBuffer(gl, vertexData);
 
     createProgram(gl).then(program => updateWebGL(gl, program, vertexBuffer));
 }
