@@ -56,5 +56,7 @@ if (!gl) {
     ]);
     let vertexBuffer = createVertexBuffer(gl, vertexData);
 
-    createProgram(gl).then(program => updateWebGL(gl, program, vertexBuffer));
+    createProgram(gl).then(program => {
+        windows.requestAnimationFrame(() => updateWebGL(gl, program, vertexBuffer));
+    });
 }
