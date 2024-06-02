@@ -58,7 +58,6 @@ export function useProgram(gl, program, code) {
 
 export function setupVertexAttribute(gl, program, attributeName, buffer, size, stride, offset, type=null) {
     type = type || gl.FLOAT;
-    console.log(program);       
     let attributeLocation = gl.getAttribLocation(program, attributeName);    
     gl.enableVertexAttribArray(attributeLocation);
     bindBuffer(gl, gl.ARRAY_BUFFER, buffer, () => {
