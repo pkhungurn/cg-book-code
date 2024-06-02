@@ -40,10 +40,7 @@ class WebGLApp {
         
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-        console.log("aaa", this.gl);
-        console.log("bbb", self.program);
         useProgram(this.gl, this.program, () => {
-            console.log(self.program);
             setupVertexAttribute(self.gl, self.program, "position", self.vertexBuffer, 3, 3*4, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);            
         });
