@@ -49,10 +49,9 @@ class WebGLApp {
     }
 
     async run() {
+        let self = this;
         await this.createProgram();
         this.createBuffers();
-        let self = this;
-        console.log("run", this.program);
         window.requestAnimationFrame(() => self.updateWebGL());
     }
 }
