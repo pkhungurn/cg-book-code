@@ -29,12 +29,7 @@ class WebGLApp {
         this.vertexBuffer = createVertexBuffer(this.gl, vertexData);
 
         let indexData = new Int32Array([
-            0, 1,
-            1, 2,
-            2, 3,
-            3, 0,
-            0, 2,
-            1, 3           
+            0, 1, 2, 3           
         ]);
         this.indexBuffer = createIndexBuffer(this.gl, indexData);
     }
@@ -46,7 +41,7 @@ class WebGLApp {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
         useProgram(this.gl, this.program, () => {
             setupVertexAttribute(self.gl, self.program, "position", self.vertexBuffer, 3, 3*4, 0);
-            drawElements(self.gl, self.indexBuffer, self.gl.LINES, 12, 0);            
+            drawElements(self.gl, self.indexBuffer, self.gl.POINTS, 4, 0);            
         });
         
         window.requestAnimationFrame(() => self.updateWebGL());
