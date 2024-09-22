@@ -14,9 +14,13 @@ class WebGLApp {
     }
 
     async createProgram() {
-        let vertexShaderSource = await loadText("vertex-shader.vert");
         let fragmentShaderSource = await loadText("fragment-shader.frag");    
-        this.program = createGlslProgram(this.gl, vertexShaderSource, fragmentShaderSource);        
+
+        let simpleVertexShaderSource = await loadText("vertex-shader-simple.vert");
+        this.simpleProgram = createGlslProgram(this.gl, simpleVertexShaderSource, fragmentShaderSource);        
+
+        let fancyVertexShaderSource = await loadText("vertex-shader-fancy.vert");
+        this.fancyProgram = createGlslProgram(this.gl, fancyVertexShaderSource, fragmentShaderSource);
     }
 
     createBuffers() {
@@ -41,8 +45,16 @@ class WebGLApp {
         
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-        useProgram(this.gl, this.program, () => {
-            setupVertexAttribute(self.gl, self.program, "t", self.vertexBuffer, 1, 4, 0);
+
+        let program = null;
+        if ($("#fancyVertexShaderRadio").is(":checked")) {
+            program = this.fancyProgram;
+        } else {
+            program = this.simpleProgram;
+        }
+
+        useProgram(this.gl, program, () => {
+            setupVertexAttribute(self.gl, program, "t", self.vertexBuffer, 1, 4, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.LINES, (self.numVertices-1)*2, 0);            
         });
         

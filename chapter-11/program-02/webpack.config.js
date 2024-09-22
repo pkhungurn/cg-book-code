@@ -9,8 +9,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 "src/index.html",
-                "src/vertex-shader-simple.vert",
-                "src/vertex-shader-fancy.vert",
+                "src/vertex-shader.vert",
                 "src/fragment-shader.frag",                
             ]
         }),
