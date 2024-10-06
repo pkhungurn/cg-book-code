@@ -6,7 +6,7 @@ in float t;
 
 void main() {
     float theta = 2.0 * PI * t;
-    float x = 0.25 * (2.0*cos(theta) - cos(2.0*theta));
-    float y = 0.25 * (2.0*sin(theta) - sin(2.0*theta));
+    float x = 2.0 * 0.2 * (1.0 - cos(theta)) * cos(theta);
+    float y = 2.0 * 0.2 * (1.0 - cos(theta)) * sin(theta);
     gl_Position = vec4(x, y, 0.0, 1.0);
 }
