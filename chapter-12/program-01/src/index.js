@@ -86,17 +86,17 @@ class WebGLApp {
             // * Using uniforms *
             // ******************
             // Step 1: Get its location.
-            var colorLocation = gl.getUniformLocation(this.program, "color");
+            let colorLocation = gl.getUniformLocation(this.program, "color");
             // Step 2: Set its value using the right function.
             gl.uniform3f(colorLocation, rgb[0], rgb[1], rgb[2]);
 
-            var amplitudeLocation = gl.getUniformLocation(this.program, "amplitude");
+            let amplitudeLocation = gl.getUniformLocation(this.program, "amplitude");
             gl.uniform1f(amplitudeLocation, amplitude);
 
-            var periodLocation = gl.getUniformLocation(this.program, "period");
+            let periodLocation = gl.getUniformLocation(this.program, "period");
             gl.uniform1f(periodLocation, period);
 
-            var phaseLocation = gl.getUniformLocation(this.program, "phase");
+            let phaseLocation = gl.getUniformLocation(this.program, "phase");
             gl.uniform1f(phaseLocation, phase);
 
             setupVertexAttribute(self.gl, this.program, "t", self.vertexBuffer, 1, 4, 0);
