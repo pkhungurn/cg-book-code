@@ -99,7 +99,7 @@ class WebGLApp {
             self.gl.uniform3f(colorLocation, rgb[0], rgb[1], rgb[2]);
 
             setupVertexAttribute(self.gl, self.program, "t", self.vertexBuffer, 1, 4, 0);
-            drawElements(self.gl, self.indexBuffer, self.gl.LINES, (self.numVertices-1)*2, 0);            
+            drawElements(self.gl, self.indexBuffer, self.gl.LINES, (self.numVertices-1)*2, 0);
         });
         
         window.requestAnimationFrame(() => self.updateWebGL());
