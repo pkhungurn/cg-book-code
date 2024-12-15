@@ -95,7 +95,6 @@ class WebGLApp {
             let phaseLocation = gl.getUniformLocation(this.program, "phase");
             gl.uniform1f(phaseLocation, phase);
 
-
             let colorLocation = gl.getUniformLocation(this.program, "color");
             gl.uniform3f(colorLocation, rgb[0], rgb[1], rgb[2]);
 
