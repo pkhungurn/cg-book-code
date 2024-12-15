@@ -78,7 +78,7 @@ class WebGLApp {
         let amplitude = this.amplitudeSlider.slider("value") / 1000.0;
         let period = this.periodSlider.slider("value") / 1000.0;
         let phase = this.phaseSlider.slider("value") / 1000.0 * 2 * Math.PI;
-        let rgb = this.rgbSliders.map(s => s.slider("value") / 255);
+        let color = this.rgbSliders.map(s => s.slider("value") / 255);
         
         useProgram(this.gl, this.program, () => {
             // ******************
@@ -96,7 +96,7 @@ class WebGLApp {
             self.gl.uniform1f(phaseLocation, phase);
 
             let colorLocation = self.gl.getUniformLocation(self.program, "color");
-            self.gl.uniform3f(colorLocation, rgb[0], rgb[1], rgb[2]);
+            self.gl.uniform3f(colorLocation, color[0], color[1], color      [2]);
 
             setupVertexAttribute(self.gl, self.program, "t", self.vertexBuffer, 1, 4, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.LINES, (self.numVertices-1)*2, 0);
