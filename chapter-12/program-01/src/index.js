@@ -75,21 +75,18 @@ class WebGLApp {
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
-        let rgb = this.rgbSliders.map(s => s.slider("value") / 255);
         let amplitude = this.amplitudeSlider.slider("value") / 1000.0;
         let period = this.periodSlider.slider("value") / 1000.0;
         let phase = this.phaseSlider.slider("value") / 1000.0 * 2 * Math.PI;
+        let rgb = this.rgbSliders.map(s => s.slider("value") / 255);
         
         useProgram(this.gl, this.program, () => {
             // ******************
             // * Using uniforms *
             // ******************
             // Step 1: Get its location.
-            let colorLocation = gl.getUniformLocation(this.program, "color");
-            // Step 2: Set its value using the right function.
-            gl.uniform3f(colorLocation, rgb[0], rgb[1], rgb[2]);
-
             let amplitudeLocation = gl.getUniformLocation(this.program, "amplitude");
+            // Step 2: Set its value using the right function.
             gl.uniform1f(amplitudeLocation, amplitude);
 
             let periodLocation = gl.getUniformLocation(this.program, "period");
@@ -97,6 +94,10 @@ class WebGLApp {
 
             let phaseLocation = gl.getUniformLocation(this.program, "phase");
             gl.uniform1f(phaseLocation, phase);
+
+
+            let colorLocation = gl.getUniformLocation(this.program, "color");
+            gl.uniform3f(colorLocation, rgb[0], rgb[1], rgb[2]);
 
             setupVertexAttribute(self.gl, this.program, "t", self.vertexBuffer, 1, 4, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.LINES, (self.numVertices-1)*2, 0);            
