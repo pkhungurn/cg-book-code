@@ -78,8 +78,7 @@ class WebGLApp {
         let rgb = this.rgbSliders.map(s => s.slider("value") / 255);
         let amplitude = this.amplitudeSlider.slider("value") / 1000.0;
         let period = this.periodSlider.slider("value") / 1000.0;
-        let phase =this.phaseSlider.slider("value") / 1000.0 * 2 * Math.PI;
-
+        let phase = this.phaseSlider.slider("value") / 1000.0 * 2 * Math.PI;
         
         useProgram(this.gl, this.program, () => {
             // ******************
