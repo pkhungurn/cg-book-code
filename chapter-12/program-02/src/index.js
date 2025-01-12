@@ -52,6 +52,7 @@ class WebGLApp {
         let delta = currentTime - this.lastTime;   
         this.elaspedTime = this.elaspedTime + delta;
         this.lastTime = currentTime;
+        
         let angularPosition = 0.001 * this.elaspedTime;
         
         let displacementX = 0.5 * Math.cos(angularPosition);
