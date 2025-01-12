@@ -17,7 +17,7 @@ class WebGLApp {
     constructor(gl) {
         this.gl = gl;
         this.lastTime = performance.now();
-        this.angularPosition = 0.0; 
+        this.elaspedTime = 0.0;        
     }
 
     async createProgram() {
@@ -49,11 +49,13 @@ class WebGLApp {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         let currentTime = performance.now();
-        let delta = currentTime - this.lastTime;        
-        this.angularPosition = this.angularPosition + 0.001 * delta;
+        let delta = currentTime - this.lastTime;   
+        this.elaspedTime = this.elaspedTime + delta;
+        this.lastTime = currentTime;
+        let angularPosition = 0.001 * this.elaspedTime;
         
-        let displacementX = 0.5 * Math.cos(this.angularPosition);
-        let displacementY = 0.5 * Math.sin(this.angularPosition);
+        let displacementX = 0.5 * Math.cos(angularPosition);
+        let displacementY = 0.5 * Math.sin(angularPosition);
 
         useProgram(this.gl, this.program, () => {
             let displacementLocation = self.gl.getUniformLocation(self.program, "displacement");
@@ -62,8 +64,6 @@ class WebGLApp {
             setupVertexAttribute(self.gl, self.program, "position", self.vertexBuffer, 2, 8, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });
-
-        this.lastTime = currentTime;
         
         window.requestAnimationFrame(() => self.updateWebGL());
     }
