@@ -46,7 +46,7 @@ export function createGlslProgram(gl, vertexShaderSource, fragmentShaderSource) 
     let infoLog = gl.getProgramInfoLog(program);
     gl.deleteProgram(program);
     gl.deleteShader(vertexShader);
-    gl.deleteShaer(fragmentShader);
+    gl.deleteShader(fragmentShader);
     throw new Error("An error occurred linking the program: " + infoLog);
 }
 

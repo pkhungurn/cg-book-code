@@ -1,9 +1,18 @@
 #version 300 es
 
+#define BALL_COUNT 16;
+
 in vec2 position;
 
-uniform vec2 displacement;
+struct Ball {
+    vec2 displacement;
+    float radius;
+    vec3 color;
+};
+
+uniform Ball ball;
+
 
 void main() {
-    gl_Position = vec4(position + displacement, 0, 1);
+    gl_Position = vec4(position * ball.radius + ball.displacement, 0, 1);
 }
