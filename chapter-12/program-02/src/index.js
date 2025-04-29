@@ -62,7 +62,7 @@ class WebGLApp {
             let displacementLocation = self.gl.getUniformLocation(self.program, "displacement");
             self.gl.uniform2f(displacementLocation, displacementX, displacementY);
             
-            setupVertexAttribute(self.gl, self.program, "position", self.vertexBuffer, 2, 8, 0);
+            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 8, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });
         

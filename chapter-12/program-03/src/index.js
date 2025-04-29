@@ -40,7 +40,7 @@ class WebGLApp {
         let vertexData = [];
         for(let i=0; i<this.numSlices; i++) {
             let angle = 2 * Math.PI * i / this.numSlices;
-            vertexData.push(this.radius * Math.cos(angle), this.radius * Math.sin(angle));
+            vertexData.push(Math.cos(angle), Math.sin(angle));
         }
         vertexData.push(0.0);
         vertexData.push(0.0);
@@ -90,6 +90,9 @@ class WebGLApp {
         useProgram(this.gl, this.program, () => {
             let displacementLocation = self.gl.getUniformLocation(self.program, "displacement");
             self.gl.uniform2f(displacementLocation, this.displacementX, this.displacementY);
+
+            let radiusLocation = self.gl.getUniformLocation(self.program, "radius");
+            self.gl.uniform1f(radiusLocation, this.radius);
             
             setupVertexAttribute(self.gl, self.program, "position", self.vertexBuffer, 2, 8, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 3*this.numSlices, 0);
