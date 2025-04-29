@@ -2,8 +2,6 @@
 
 precision highp float;
 
-out vec4 fragColor;
-
 struct Ball {
     vec2 displacement;
     float radius;
@@ -11,6 +9,7 @@ struct Ball {
 };
 
 uniform Ball ball;
+out vec4 fragColor;
 
 void main() {
     fragColor = vec4(ball.color, 1.0);
