@@ -25,21 +25,21 @@ class Ball {
         this.displacement[0] += this.velocity[0] * delta;
         this.displacement[1] += this.velocity[1] * delta;
         
-        if (this.displacement[0] < -1.0 + this.radius) {
-            this.displacement[0] = -1.0 + this.radius;
-            this.velocity[0] *= -1.0;
-        }
         if (this.displacement[0] > 1.0 - this.radius) {
             this.displacement[0] = 1.0 - this.radius;
             this.velocity[0] *= -1.0;
         }
-        if (this.displacement[1] < -1.0 + this.radius) {
-            this.displacement[1] = -1.0 + this.radius;
-            this.velocity[1] *= -1.0
+        if (this.displacement[0] < -1.0 + this.radius) {
+            this.displacement[0] = -1.0 + this.radius;
+            this.velocity[0] *= -1.0;
         }
         if (this.displacement[1] > 1.0 - this.radius) {
             this.displacement[1] = 1.0 - this.radius;
             this.velocity[1] *= -1.0;
+        }
+        if (this.displacement[1] < -1.0 + this.radius) {
+            this.displacement[1] = -1.0 + this.radius;
+            this.velocity[1] *= -1.0
         }
     }
 }

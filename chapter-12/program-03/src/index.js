@@ -70,20 +70,20 @@ class WebGLApp {
         this.displacementX = this.displacementX + delta * this.velocityX;
         this.displacementY = this.displacementY + delta * this.velocityY;
         
-        if (this.displacementX < -1.0 + this.radius) {
-            this.displacementX = -1.0 + this.radius;
-            this.velocityX *= -1.0;
-        }
         if (this.displacementX > 1.0 - this.radius) {
             this.displacementX = 1.0 - this.radius;
             this.velocityX *= -1.0;
         }
-        if (this.displacementY < -1.0 + this.radius) {
-            this.displacementY = -1.0 + this.radius;
-            this.velocityY *= -1.0;
+        if (this.displacementX < -1.0 + this.radius) {
+            this.displacementX = -1.0 + this.radius;
+            this.velocityX *= -1.0;
         }
         if (this.displacementY > 1.0 - this.radius) {
             this.displacementY = 1.0 - this.radius;
+            this.velocityY *= -1.0;
+        }
+        if (this.displacementY < -1.0 + this.radius) {
+            this.displacementY = -1.0 + this.radius;
             this.velocityY *= -1.0;
         }
         

@@ -14,35 +14,35 @@ class WebGLApp {
     }
 
     async createProgram() {
-        let fragmentShaderSource = await loadText("fragment-shader.frag");    
+        let fragmentShaderSource = await loadText("fragment-shader.frag");
 
         let simpleVertexShaderSource = await loadText("vertex-shader-simple.vert");
-        this.simpleProgram = createGlslProgram(this.gl, simpleVertexShaderSource, fragmentShaderSource);        
+        this.simpleProgram = createGlslProgram(this.gl, simpleVertexShaderSource, fragmentShaderSource);
 
         let fancyVertexShaderSource = await loadText("vertex-shader-fancy.vert");
         this.fancyProgram = createGlslProgram(this.gl, fancyVertexShaderSource, fragmentShaderSource);
     }
 
     createBuffers() {
-      this.numVertices = 256;
+        this.numVertices = 256;
 
-      let vertexData = [];      
-      for (let i=0; i<this.numVertices; i++) {
-          vertexData.push(-1.0 + 2.0*i/(this.numVertices-1));
-      }      
-      this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
-      
-      let indexData = [];
-      for (let i=0;i<this.numVertices-1;i++) {
-        indexData.push(i);
-        indexData.push(i+1);
-      }      
-      this.indexBuffer = createIndexBuffer(this.gl, new Int32Array(indexData));
+        let vertexData = [];
+        for (let i = 0; i < this.numVertices; i++) {
+            vertexData.push(-1.0 + 2.0 * i / (this.numVertices - 1));
+        }
+        this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
+
+        let indexData = [];
+        for (let i = 0; i < this.numVertices - 1; i++) {
+            indexData.push(i);
+            indexData.push(i + 1);
+        }
+        this.indexBuffer = createIndexBuffer(this.gl, new Int32Array(indexData));
     }
 
     updateWebGL() {
         let self = this;
-        
+
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
@@ -55,9 +55,9 @@ class WebGLApp {
 
         useProgram(this.gl, program, () => {
             setupVertexAttribute(self.gl, program, "t", self.vertexBuffer, 1, 4, 0);
-            drawElements(self.gl, self.indexBuffer, self.gl.LINES, (self.numVertices-1)*2, 0);            
+            drawElements(self.gl, self.indexBuffer, self.gl.LINES, (self.numVertices - 1) * 2, 0);
         });
-        
+
         window.requestAnimationFrame(() => self.updateWebGL());
     }
 
@@ -75,6 +75,6 @@ if (!gl) {
     alert("Cannot get WebGL 2 context!");
 } else {
     let app = new WebGLApp(gl);
-    await app.run();    
+    await app.run();
 }
 
