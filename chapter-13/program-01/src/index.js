@@ -13,33 +13,36 @@ async function loadText(url) {
     return fetchResult.text();
 }
 
+
 class WebGLApp {
     constructor(gl) {
         this.gl = gl;
-        this.lastTime = performance.now();
-        this.elaspedTime = 0.0;        
     }
 
     async createProgram() {
         let vertexShaderSource = await loadText("vertex-shader.vert");
         let fragmentShaderSource = await loadText("fragment-shader.frag");    
-        this.program = createGlslProgram(this.gl, vertexShaderSource, fragmentShaderSource);        
+        this.program = createGlslProgram(this.gl, vertexShaderSource, fragmentShaderSource);
     }
 
     createBuffers() {
-      let vertexData = [
-        -0.1, -0.1,
-         0.1, -0.1,
-         0.1,  0.1,
-        -0.1,  0.1
-      ];      
-      this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
-      
-      let indexData = [
-        0, 1, 2,
-        0, 2, 3
-      ];
-      this.indexBuffer = createIndexBuffer(this.gl, new Int32Array(indexData));
+        let vertexData = [
+            -0.5, -0.5,       // First vertex
+             1.0,  0.0, 0.0,  // is red.
+             0.5, -0.5,       // Second vertex
+             0.0,  1.0, 0.0,  // is green.
+             0.5,  0.5,       // Third vertex
+             0.0,  0.0, 1.0,  // is blue.
+            -0.5,  0.5,       // Fourth vertex
+             1.0,  1.0, 1.0   // is white.
+        ];
+        this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
+
+        let indexData = [
+            0, 1, 2,
+            0, 2, 3
+        ];
+        this.indexBuffer = createIndexBuffer(this.gl, new Int32Array(indexData));
     }
 
     updateWebGL() {
@@ -48,21 +51,9 @@ class WebGLApp {
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
-        let currentTime = performance.now();
-        let delta = currentTime - this.lastTime;   
-        this.elaspedTime += delta;
-        this.lastTime = currentTime;
-
-        let angularPosition = 0.001 * this.elaspedTime;
-        
-        let displacementX = 0.5 * Math.cos(angularPosition);
-        let displacementY = 0.5 * Math.sin(angularPosition);
-        
         useProgram(this.gl, this.program, () => {
-            let displacementLocation = self.gl.getUniformLocation(self.program, "displacement");
-            self.gl.uniform2f(displacementLocation, displacementX, displacementY);
-            
-            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 8, 0);
+            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 4*5, 0);
+            setupVertexAttribute(self.gl, self.program, "vert_color", self.vertexBuffer, 3, 4*5, 4*2)
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });
         
