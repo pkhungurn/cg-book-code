@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Chapter 13 Program 3: Visualizing 2D functions</title>
+</head>
+
+<body>
+    <h1>Chapter 13 Program 3: Visualizing 2D functions</h1>
+
+    <canvas id="webglCanvas" style="border: none; background-color: black;" width="512" height="512"></canvas><br>
+
+    <table cellpadding="5">
+        <tr>
+            <td align="right">Function:</td>
+            <td width="300">
+                <input type="radio" name="func" value="zonePlate" checked="checked">Zone plate
+                <input type="radio" name="func" value="fractal">Fractal
+            </td>
+        </tr>
+        <tr>
+            <td align="right">Center X:</td>
+            <td width="300"><div id="centerXSlider"></div></td>
+        </tr>
+        <tr>
+            <td align="right">Center Y:</td>
+            <td width="300"><div id="centerYSlider"></div></td>
+        </tr>
+        <tr>
+            <td align="right">Scale:</td>
+            <td width="300"><div id="scaleSlider"></div></td>
+        </tr>
+    </table>
+
+    <script src="index.bundle.js"></script>
+</body>
+
+</html>
