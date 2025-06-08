@@ -19,6 +19,25 @@ class WebGLApp {
         this.gl = gl;
     }
 
+    createUi() {
+        this.centerXSlider = $("#centerXSlider").slider({
+            min: -1000,
+            max: 1000,
+            value: 0
+        });
+        this.centerYSlider = $("#centerYSlider").slider({
+            min: -1000,
+            max: 1000,
+            value: 0
+        });
+        this.scaleSlider = $("#scaleSlider").slider({
+            min: -1000,
+            max: 1000,
+            value: 0
+        });
+    }
+
+
     async createProgram() {
         let vertexShaderSource = await loadText("vertex-shader.vert");
         let fragmentShaderSource = await loadText("fragment-shader.frag");    
@@ -27,14 +46,10 @@ class WebGLApp {
 
     createBuffers() {
         let vertexData = [
-            -0.5, -0.5,       // First vertex
-             1.0,  0.0, 0.0,  // is red.
-             0.5, -0.5,       // Second vertex
-             0.0,  1.0, 0.0,  // is green.
-             0.5,  0.5,       // Third vertex
-             0.0,  0.0, 1.0,  // is blue.
-            -0.5,  0.5,       // Fourth vertex
-             1.0,  1.0, 1.0   // is white.
+            -1.0, -1.0,       
+             1.0, -1.0,       
+             1.0,  1.0,       
+            -1.0,  1.0
         ];
         this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
 
@@ -51,9 +66,24 @@ class WebGLApp {
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
+        let centerX = this.centerXSlider.slider("value") / 1000.0;
+        let centerY = this.centerYSlider.slider("value") / 1000.0;
+        let scale = Math.pow(2, this.scaleSlider.slider("value") / 100.0);
+
+        let drawZonePlate = $('input[name=func]:checked').val() === 'zonePlate';
+
+
         useProgram(this.gl, this.program, () => {
-            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 4*5, 0);
-            setupVertexAttribute(self.gl, self.program, "vert_color", self.vertexBuffer, 3, 4*5, 4*2)
+            let centerLocation = self.gl.getUniformLocation(self.program, "center");
+            self.gl.uniform2f(centerLocation, centerX, centerY);
+
+            let scaleLocation = self.gl.getUniformLocation(self.program, "scale");
+            self.gl.uniform1f(scaleLocation, scale);
+
+            let drawZonePlateLocation = self.gl.getUniformLocation(self.program, "drawZonePlate");
+            self.gl.uniform1i(drawZonePlateLocation, drawZonePlate);
+            
+            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 8, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });
         
@@ -62,6 +92,7 @@ class WebGLApp {
 
     async run() {
         let self = this;
+        this.createUi();
         await this.createProgram();
         this.createBuffers();
         window.requestAnimationFrame(() => self.updateWebGL());

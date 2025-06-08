@@ -27,10 +27,14 @@ class WebGLApp {
 
     createBuffers() {
         let vertexData = [
-            -1.0, -1.0,       
-             1.0, -1.0,       
-             1.0,  1.0,       
-            -1.0,  1.0
+            -0.5, -0.5,       // First vertex
+             1.0,  0.0, 0.0,  // is red.
+             0.5, -0.5,       // Second vertex
+             0.0,  1.0, 0.0,  // is green.
+             0.5,  0.5,       // Third vertex
+             0.0,  0.0, 1.0,  // is blue.
+            -0.5,  0.5,       // Fourth vertex
+             1.0,  1.0, 1.0   // is white.
         ];
         this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
 
@@ -48,7 +52,8 @@ class WebGLApp {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         useProgram(this.gl, this.program, () => {
-            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 8, 0);
+            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 4*5, 0);
+            setupVertexAttribute(self.gl, self.program, "vert_color", self.vertexBuffer, 3, 4*5, 4*2)
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });
         
