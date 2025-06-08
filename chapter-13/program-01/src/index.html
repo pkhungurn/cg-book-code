@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Chapter 13 Program 1: Color spaces</title>
+</head>
+
+<body>
+    <h1>Chapter 13 Program 1: Color spaces</h1>
+
+    <table border="0" cellpadding="0">
+        <tr>
+            <td><canvas id="webglCanvas" style="border: none; background-color: black;" width="512" height="512"></canvas><br></td>
+            <td><canvas id="htmlCanvas" style="border: none; background-color: black;" width="512" height="512"></canvas></td>
+        </tr>
+        <tr>
+            <td align="center">WebGL</td>
+            <td align="center">HTML</td>
+        </tr>
+    </table>
+
+    <table cellpadding="5">
+        <tr>
+            <td align="right">Color space:</td>
+            <td colspan="2">
+                <input type="radio" name="colorSpace" value="srgb" checked="checked">sRGB
+                <input type="radio" name="colorSpace" value="linear">linear
+            </td>
+        </tr>
+        <tr>
+            <td align="right">R:</td>
+            <td width="300"><div id="redSlider"></div></td>
+            <td id="redValueCell">0 / 255</td>
+        </tr>
+        <tr>
+            <td align="right">G:</td>
+            <td width="300"><div id="greenSlider"></div></td>
+            <td id="greenValueCell">0 / 255</td>
+        </tr>
+        <tr>
+            <td align="right">B:</td>
+            <td width="300"><div id="blueSlider"></div></td>
+            <td id="blueValueCell">0 / 255</td>
+        </tr>
+    </table>
+
+    <script src="index.bundle.js"></script>
+</body>
+
+</html>
