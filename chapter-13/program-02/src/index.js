@@ -27,14 +27,14 @@ class WebGLApp {
 
     createBuffers() {
         let vertexData = [
-            -0.5, -0.5,       // First vertex
-             1.0,  0.0, 0.0,  // is red.
-             0.5, -0.5,       // Second vertex
-             0.0,  1.0, 0.0,  // is green.
-             0.5,  0.5,       // Third vertex
-             0.0,  0.0, 1.0,  // is blue.
-            -0.5,  0.5,       // Fourth vertex
-             1.0,  1.0, 1.0   // is white.
+            -0.5, -0.5,       
+             1.0,  1.0, 0.0,
+             0.5, -0.5,
+             0.0,  1.0, 1.0,
+             0.5,  0.5,
+             1.0,  0.0, 1.0,
+            -0.5,  0.5,
+             1.0,  1.0, 1.0
         ];
         this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
 
