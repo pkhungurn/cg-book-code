@@ -7,7 +7,7 @@ uniform bool useLinearColorSpace;
 
 out vec4 fragColor;
 
-float linearToSrgb(float c) {
+float linearToSrgbSingle(float c) {
     float a = 0.055;
     if (c <= 0.0)
         return 0.0;
@@ -21,14 +21,13 @@ float linearToSrgb(float c) {
     }
 }
 
+vec3 linearToSrgb(vec3 color) {
+    return vec3(linearToSrgbSingle(color.r), linearToSrgbSingle(color.g), linearToSrgbSingle(color.b));
+}
+
 void main() {
     if (useLinearColorSpace) {
-        fragColor = vec4(
-            linearToSrgb(color.r),
-            linearToSrgb(color.g),
-            linearToSrgb(color.b),
-            1.0
-        );
+        fragColor = vec4(linearToSrgb(color), 1.0);
     } else {
         fragColor = vec4(color, 1.0);
     }

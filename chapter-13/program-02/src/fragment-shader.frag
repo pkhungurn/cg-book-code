@@ -6,7 +6,7 @@ in vec3 geom_color;
 
 out vec4 fragColor;
 
-float linearToSrgb(float c) {
+float linearToSrgbSingle(float c) {
     float a = 0.055;
     if (c <= 0.0)
         return 0.0;
@@ -20,7 +20,10 @@ float linearToSrgb(float c) {
     }
 }
 
+vec3 linearToSrgb(vec3 color) {
+    return vec3(linearToSrgbSingle(color.r), linearToSrgbSingle(color.g), linearToSrgbSingle(color.b));
+}
 
 void main() {
-    fragColor = vec4(geom_color, 1.0);
+    fragColor = vec4(linearToSrgb(geom_color), 1.0);
 }
