@@ -6,14 +6,8 @@ in vec2 geom_position;
 
 uniform vec2 center;
 uniform float scale;
-uniform bool drawZonePlate;
 
 out vec4 fragColor;
-
-float zonePlate(vec2 p) {
-    float r2 = p.x*p.x + p.y*p.y;
-    return r2 - floor(r2);
-}
 
 float fractal(vec2 p) {
     float real = p.x;
@@ -78,12 +72,7 @@ vec3 linearToSrgb(vec3 color) {
 void main() {
     vec2 p = (geom_position - center) * scale;
 
-    float value;
-    if (drawZonePlate) {
-        value = zonePlate(p);
-    } else {
-        value = fractal(p);
-    }
+    float value = fractal(p);
     vec3 color = scalarToColor(value);
     fragColor = vec4(linearToSrgb(color), 1.0);
 }

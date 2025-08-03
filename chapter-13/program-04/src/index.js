@@ -70,9 +70,6 @@ class WebGLApp {
         let centerY = this.centerYSlider.slider("value") / 1000.0;
         let scale = Math.pow(2, this.scaleSlider.slider("value") / 100.0);
 
-        let drawZonePlate = $('input[name=func]:checked').val() === 'zonePlate';
-
-
         useProgram(this.gl, this.program, () => {
             let centerLocation = self.gl.getUniformLocation(self.program, "center");
             self.gl.uniform2f(centerLocation, centerX, centerY);
@@ -80,9 +77,6 @@ class WebGLApp {
             let scaleLocation = self.gl.getUniformLocation(self.program, "scale");
             self.gl.uniform1f(scaleLocation, scale);
 
-            let drawZonePlateLocation = self.gl.getUniformLocation(self.program, "drawZonePlate");
-            self.gl.uniform1i(drawZonePlateLocation, drawZonePlate);
-            
             setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 8, 0);
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });
