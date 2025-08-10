@@ -13,10 +13,10 @@ vec2 square(vec2 z) {
     return vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y);
 }
 
-int julaNumIterations(vec2 p, float R, vec2 c) {
+int julaNumIterations(vec2 p, float R, vec2 c, int N) {
     vec2 z = p;
     int n = 0;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < N; i++) {
  		z = square(z) + c;
  		n = n+1;
  		if (dot(z, z) >= R*R) {
@@ -70,8 +70,9 @@ void main() {
     vec2 p = (geom_position - center) * scale;
     vec2 c = vec2(-0.4, 0.6);
     float R = 2.0;
+    int N = 100;
 
-    int n = julaNumIterations(p, R, c);
-    vec3 color = scalarToColor(float(n) / 100.0);
+    int n = julaNumIterations(p, R, c, N);
+    vec3 color = scalarToColor(float(n) / float(N));
     fragColor = vec4(linearToSrgb(color), 1.0);
 }
