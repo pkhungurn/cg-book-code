@@ -9,24 +9,21 @@ uniform float scale;
 
 out vec4 fragColor;
 
-float fractal(vec2 p) {
-    float real = p.x;
-    float imag = p.y;
-    vec2 c = vec2(-0.4, 0.6);
+vec2 square(vec2 z) {
+    return vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y);
+}
 
-    int j = 0;
+int julaNumIterations(vec2 p, float R, vec2 c) {
+    vec2 z = p;
+    int n = 0;
     for (int i = 0; i < 100; i++) {
- 		float temp = (real * real) - (imag * imag) + c.x;
- 		imag = 2.0 * real * imag + c.y;
- 		real = temp;
- 		j = i+1;
-
- 		vec2 x = vec2(real, imag);
- 		if (dot(x, x) > 4.0) {
+ 		z = square(z) + c;
+ 		n = n+1;
+ 		if (dot(z, z) >= R*R) {
  			break;
  		}
     }
-    return float(j) / 100.0;
+    return n;
 }
 
 vec3 scalarToColor(float x) {
@@ -71,8 +68,10 @@ vec3 linearToSrgb(vec3 color) {
 
 void main() {
     vec2 p = (geom_position - center) * scale;
+    vec2 c = vec2(-0.4, 0.6);
+    float R = 2.0;
 
-    float value = fractal(p);
-    vec3 color = scalarToColor(value);
+    int n = julaNumIterations(p, R, c);
+    vec3 color = scalarToColor(float(n) / 100.0);
     fragColor = vec4(linearToSrgb(color), 1.0);
 }

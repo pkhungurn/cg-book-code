@@ -68,7 +68,7 @@ class WebGLApp {
 
         let centerX = this.centerXSlider.slider("value") / 1000.0;
         let centerY = this.centerYSlider.slider("value") / 1000.0;
-        let scale = Math.pow(2, this.scaleSlider.slider("value") / 100.0);
+        let scale = Math.pow(2, -this.scaleSlider.slider("value") / 100.0);
 
         useProgram(this.gl, this.program, () => {
             let centerLocation = self.gl.getUniformLocation(self.program, "center");
