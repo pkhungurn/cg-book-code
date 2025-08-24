@@ -26,25 +26,34 @@ int julaNumIterations(vec2 p, float R, vec2 c, int N) {
     return n;
 }
 
+const vec3 red = vec3(1.0, 0.0, 0.0);
+const vec3 yellow = vec3(1.0, 1.0, 0.0);
+const vec3 green = vec3(0.0, 1.0, 0.0);
+const vec3 cyan = vec3(0.0, 1.0, 1.0);
+const vec3 blue = vec3(0.0, 0.0, 1.0);
+const vec3 purple = vec3(0.5, 0.0, 1.0);
+const vec3 magenta = vec3(1.0, 0.0, 1.0);
+
+
 vec3 scalarToColor(float x) {
     if (x < 1.0 / 6.0) {
         float alpha = x * 6.0;
-        return (1.0 - alpha) * vec3(1.0, 0.0, 0.0) + alpha * vec3(1.0, 1.0, 0.0);
+        return mix(red, yellow, alpha);
     } else if (x < 2.0 / 6.0) {
         float alpha = (x - 1.0 / 6.0) * 6.0;
-        return (1.0 - alpha) * vec3(1.0, 1.0, 0.0) + alpha * vec3(0.0, 1.0, 0.0);
+        return mix(yellow, green, alpha);
     } else if (x < 3.0 / 6.0) {
         float alpha = (x - 2.0 / 6.0) * 6.0;
-        return (1.0 - alpha) * vec3(0.0, 1.0, 0.0) + alpha * vec3(0.0, 1.0, 1.0);
+        return mix(green, cyan, alpha);
     } else if (x < 4.0 / 6.0) {
         float alpha = (x - 3.0 / 6.0) * 6.0;
-        return (1.0 - alpha) * vec3(0.0, 1.0, 1.0) + alpha * vec3(0.0, 0.0, 1.0);
+        return mix(cyan, blue, alpha);
     } else if (x < 5.0 / 6.0) {
         float alpha = (x - 4.0 / 6.0) * 6.0;
-        return (1.0 - alpha) * vec3(0.0, 0.0, 1.0) + alpha * vec3(1.0, 0.0, 0.5);
+        return mix(blue, purple, alpha);
     } else {
         float alpha = (x - 5.0 / 6.0) * 6.0;
-        return (1.0 - alpha) * vec3(1.0, 0.0, 0.5) + alpha * vec3(1.0, 0.0, 1.0);
+        return mix(purple, magenta, alpha);
     }
 }
 
