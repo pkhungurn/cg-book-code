@@ -94,8 +94,7 @@ class GlAttribute {
         this.setEnabled(true);
         let self = this;
         bindBuffer(gl, gl.ARRAY_BUFFER, buffer, () => {
-            gl.vertexAttribPointer(self.location, size, type, normalized, stride, powerinter)
-            ;
+            gl.vertexAttribPointer(self.location, size, type, normalized, stride, pointer);
         });
     }
 }
@@ -106,7 +105,11 @@ class GlProgram{
         this.glObject = createGlslProgram(gl, vertexShaderSource, fragmentShaderSource);
 
         this.attributes = {};
-
+        let numAttributes = gl.getProgramProgrammeter(this.glObject, gl.ACTIVE_ATTRIBUTES);
+        for (let index = 0; index < numAttributes; index++) {
+            let attribute = GlAttribute(gl, this, index);
+            this.attributes[attribute.name] = attribute;
+        }
 
         this.uniforms = {};
     }
