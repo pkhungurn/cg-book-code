@@ -165,6 +165,22 @@ export class GlProgram{
         }        
     }
 
+    uniform(name) {
+        if (this.uniforms.has(name)) {
+            return this.uniforms.get(name);
+        } else {
+            return null;
+        }        
+    }
+
+    attribute(name) {
+        if (this.attributes.has(name)) {
+            return this.attributes.get(name);
+        } else {
+            return null;
+        }
+    }
+
     use(code) {
         this.gl.useProgram(this.glObject);
         code();

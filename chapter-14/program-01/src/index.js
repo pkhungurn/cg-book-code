@@ -74,20 +74,10 @@ class WebGLApp {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
         
         this.program.use(() => {
-            if (self.program.uniforms.has("center")) {
-                self.program.uniforms.get("center").set2Float(centerX, centerY);
-            }
-            if (self.program.uniforms.has("scale")) {
-                self.program.uniforms.get("scale").set1Float(scale);
-            }
-                        
-            if (self.program.attributes.has("vert_position")) {
-                self.program.attributes.get("vert_position").setup(self.vertexBuffer, 2, 4*5, 0);
-            }
-            if (self.program.attributes.has('vert_color')) {
-                self.program.attributes.get("vert_color").setup(self.vertexBuffer, 3, 4*5, 4*2);
-            }
-
+            self.program.uniform("center")?.set2Float(centerX, centerY);            
+            self.program.uniform("scale")?.set1Float(scale);
+            self.program.attribute("vert_position")?.setup(self.vertexBuffer, 2, 4*5, 0);            
+            self.program.attribute("vert_color")?.setup(self.vertexBuffer, 3, 4*5, 4*2);
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });        
         
