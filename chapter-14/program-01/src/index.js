@@ -37,7 +37,6 @@ class WebGLApp {
         });
     }
 
-
     async createProgram() {
         let vertexShaderSource = await loadText("vertex-shader.vert");
         let fragmentShaderSource = await loadText("fragment-shader.frag");    
@@ -47,10 +46,14 @@ class WebGLApp {
 
     createBuffers() {
         let vertexData = [
-            -1.0, -1.0,       
-             1.0, -1.0,       
-             1.0,  1.0,       
-            -1.0,  1.0
+            -0.5, -0.5,       
+             1.0,  1.0, 0.0,
+             0.5, -0.5,
+             0.0,  1.0, 1.0,
+             0.5,  0.5,
+             1.0,  0.0, 1.0,
+            -0.5,  0.5,
+             1.0,  1.0, 1.0
         ];
         this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
 
@@ -64,12 +67,12 @@ class WebGLApp {
     updateWebGL() {
         let self = this;
 
-        this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
         let centerX = this.centerXSlider.slider("value") / 1000.0;
         let centerY = this.centerYSlider.slider("value") / 1000.0;
-        let scale = Math.pow(2, -this.scaleSlider.slider("value") / 100.0);
+        let scale = Math.pow(2, this.scaleSlider.slider("value") / 1000.0);
+
+        this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         useProgram(this.gl, this.program, () => {
             let centerLocation = self.gl.getUniformLocation(self.program, "center");
@@ -78,11 +81,138 @@ class WebGLApp {
             let scaleLocation = self.gl.getUniformLocation(self.program, "scale");
             self.gl.uniform1f(scaleLocation, scale);
 
-            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 8, 0);
+            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 4*5, 0);
+            setupVertexAttribute(self.gl, self.program, "vert_color", self.vertexBuffer, 3, 4*5, 4*2)            
+            
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
         });
         
         window.requestAnimationFrame(() => self.updateWebGL());
+    }
+
+    getTypeName(gl, type) {        
+        switch (type) {
+            case gl.FLOAT:
+                return "FLOAT";
+            case gl.FLOAT_VEC2:
+                return "FLOAT_VEC2";
+            case gl.FLOAT_VEC3:
+                return "FLOAT_VEC3";
+            case gl.FLOAT_VEC4:
+                return "FLOAT_VEC4";
+            case gl.INT:
+                return "INT";
+            case gl.INT_VEC2:
+                return "INT_VEC2";
+            case gl.INT_VEC3:
+                return "INT_VEC3";
+            case gl.INT_VEC4:
+                return "INT_VEC4";
+            case gl.BOOL:
+                return "BOOL";
+            case gl.BOOL_VEC2:
+                return "BOOL_VEC2";
+            case gl.BOOL_VEC3:
+                return "BOOL_VEC3";
+            case gl.BOOL_VEC4:
+                return "BOOL_VEC4";
+            case gl.FLOAT_MAT2:
+                return "FLOAT_MAT2";
+            case gl.FLOAT_MAT3:
+                return "FLOAT_MAT3";
+            case gl.FLOAT_MAT4:
+                return "FLOAT_MAT4";
+            case gl.SAMPLER_2D:
+                return "SAMPLER_2D";
+            case gl.SAMPLER_CUBE:
+                return "SAMPLER_CUBE";
+            case gl.UNSIGNED_INT:
+                return "UNSIGNED_INT";
+            case gl.UNSIGNED_INT_VEC2:
+                return "UNSIGNED_INT_VEC2";
+            case gl.UNSIGNED_INT_VEC3:
+                return "UNSIGNED_INT_VEC3";
+            case gl.UNSIGNED_INT_VEC4:
+                return "UNSIGNED_INT_VEC4";
+            case gl.FLOAT_MAT2x3:
+                return "FLOAT_MAT2x3";
+            case gl.FLOAT_MAT2x4:
+                return "FLOAT_MAT2x4";
+            case gl.FLOAT_MAT3x2:
+                return "FLOAT_MAT3x2";
+            case gl.FLOAT_MAT3x4:
+                return "FLOAT_MAT3x4";
+            case gl.FLOAT_MAT4x2:
+                return "FLOAT_MAT4x2";
+            case gl.FLOAT_MAT4x3:
+                return "FLOAT_MAT4x3";
+            case gl.SAMPLER_3D:
+                return "SAMPLER_3D";
+            case gl.SAMPLER_2D_SHADOW:
+                return "SAMPLER_2D_SHADOW";
+            case gl.SAMPLER_2D_ARRAY:
+                return "SAMPLER_2D_ARRAY";
+            case gl.SAMPLER_2D_ARRAY_SHADOW:
+                return "SAMPLER_2D_ARRAY_SHADOW";
+            case gl.SAMPLER_CUBE_SHADOW:
+                return "SAMPLER_CUBE_SHADOW";
+            case gl.INT_SAMPLER_2D:
+                return "INT_SAMPLER_2D";
+            case gl.INT_SAMPLER_3D:
+                return "INT_SAMPLER_3D";
+            case gl.INT_SAMPLER_CUBE:
+                return "INT_SAMPLER_CUBE";
+            case gl.INT_SAMPLER_2D_ARRAY:
+                return "INT_SAMPLER_2D_ARRAY";
+            case gl.UNSIGNED_INT_SAMPLER_2D:
+                return "UNSIGNED_INT_SAMPLER_2D";
+            case gl.UNSIGNED_INT_SAMPLER_3D:
+                return "UNSIGNED_INT_SAMPLER_3D";
+            case gl.UNSIGNED_INT_SAMPLER_CUBE:
+                return "UNSIGNED_INT_SAMPLER_CUBE";
+            case gl.UNSIGNED_INT_SAMPLER_2D_ARRAY:
+                return "UNSIGNED_INT_SAMPLER_2D_ARRAY";                
+            default:
+                return "Unknown";
+        }
+    }
+
+    displayProgramInfo() {
+        let attributesDivHtml = `
+            <table border='1' cellpadding='5'>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Size</b></td>
+                    <td><b>Type</b></td>
+        `;
+        for (let name in this.program01.attributes) {
+            let attribute = this.program01.attributes[name];
+            attributesDivHtml += "<tr>";
+            attributesDivHtml += `<td>${name}</td>`;
+            attributesDivHtml += `<td>${attribute.size}</td>`;
+            attributesDivHtml += `<td>${this.getTypeName(gl, attribute.type)}</td>`;
+            attributesDivHtml += "</tr>";
+        }
+        attributesDivHtml += "</table>"
+        $("#attributesDiv").html(attributesDivHtml);
+
+        let uniformDivHtml = `
+            <table border='1' cellpadding='5'>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td><b>Size</b></td>
+                    <td><b>Type</b></td>
+        `;
+        for (let name in this.program01.uniforms) {
+            let uniform = this.program01.uniforms[name];
+            uniformDivHtml += "<tr>";
+            uniformDivHtml += `<td>${name}</td>`;
+            uniformDivHtml += `<td>${uniform.size}</td>`;
+            uniformDivHtml += `<td>${this.getTypeName(gl, uniform.type)}</td>`;
+            uniformDivHtml += "</tr>";
+        }
+        uniformDivHtml += "</table>"
+        $("#uniformsDiv").html(uniformDivHtml);
     }
 
     async run() {
@@ -91,6 +221,7 @@ class WebGLApp {
         await this.createProgram();
         this.createBuffers();
         window.requestAnimationFrame(() => self.updateWebGL());
+        this.displayProgramInfo();
     }
 }
 

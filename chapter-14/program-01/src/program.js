@@ -99,6 +99,18 @@ export class GlAttribute {
     }
 }
 
+export class GlUniform {
+    constructor(gl, program, index) {
+        this.gl = gl;
+        this.program = program;
+        
+        let info = gl.getActiveUniform(program.glObject, index);
+        this.name = info.name;
+        this.type = info.type;
+        this.size = info.size;
+    }
+}
+
 export class GlProgram{
     constructor(gl, vertexShaderSource, fragmentShaderSource) {
         this.gl = gl;
@@ -112,5 +124,10 @@ export class GlProgram{
         }
 
         this.uniforms = {};
+        let numUniforms = gl.getProgramParameter(this.glObject, gl.ACTIVE_UNIFORMS);
+        for (let index = 0; index < numUniforms; index++) {
+            let uniform = new GlUniform(gl, this, index);
+            this.uniforms[uniform.name] = uniform;
+        }        
     }
 }
