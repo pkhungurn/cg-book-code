@@ -4,7 +4,7 @@ require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/slider.css');
 require('jquery-ui/themes/base/theme.css');
 
-import { createGlslProgram, useProgram, setupVertexAttribute, GlProgram } from './program.js';
+import { GlProgram } from './program.js';
 import { createVertexBuffer, createIndexBuffer } from './vertex-index-buffer.js';
 import { drawElements } from './primitives.js'
 
