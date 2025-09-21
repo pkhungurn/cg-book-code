@@ -40,8 +40,7 @@ class WebGLApp {
     async createProgram() {
         let vertexShaderSource = await loadText("vertex-shader.vert");
         let fragmentShaderSource = await loadText("fragment-shader.frag");    
-        this.program = createGlslProgram(this.gl, vertexShaderSource, fragmentShaderSource);
-        this.program01 = new GlProgram(this.gl, vertexShaderSource, fragmentShaderSource);
+        this.program = new GlProgram(this.gl, vertexShaderSource, fragmentShaderSource);
     }
 
     createBuffers() {
@@ -73,19 +72,24 @@ class WebGLApp {
 
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+        
+        this.program.use(() => {
+            if (self.program.uniforms.has("center")) {
+                self.program.uniforms.get("center").set2Float(centerX, centerY);
+            }
+            if (self.program.uniforms.has("scale")) {
+                self.program.uniforms.get("scale").set1Float(scale);
+            }
+                        
+            if (self.program.attributes.has("vert_position")) {
+                self.program.attributes.get("vert_position").setup(self.vertexBuffer, 2, 4*5, 0);
+            }
+            if (self.program.attributes.has('vert_color')) {
+                self.program.attributes.get("vert_color").setup(self.vertexBuffer, 3, 4*5, 4*2);
+            }
 
-        useProgram(this.gl, this.program, () => {
-            let centerLocation = self.gl.getUniformLocation(self.program, "center");
-            self.gl.uniform2f(centerLocation, centerX, centerY);
-
-            let scaleLocation = self.gl.getUniformLocation(self.program, "scale");
-            self.gl.uniform1f(scaleLocation, scale);
-
-            setupVertexAttribute(self.gl, self.program, "vert_position", self.vertexBuffer, 2, 4*5, 0);
-            setupVertexAttribute(self.gl, self.program, "vert_color", self.vertexBuffer, 3, 4*5, 4*2)            
-            
             drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
-        });
+        });        
         
         window.requestAnimationFrame(() => self.updateWebGL());
     }
@@ -185,8 +189,9 @@ class WebGLApp {
                     <td><b>Size</b></td>
                     <td><b>Type</b></td>
         `;
-        for (let name in this.program01.attributes) {
-            let attribute = this.program01.attributes[name];
+        for (let name of this.program.attributes.keys()) {
+            
+            let attribute = this.program.attributes.get(name);
             attributesDivHtml += "<tr>";
             attributesDivHtml += `<td>${name}</td>`;
             attributesDivHtml += `<td>${attribute.size}</td>`;
@@ -203,8 +208,8 @@ class WebGLApp {
                     <td><b>Size</b></td>
                     <td><b>Type</b></td>
         `;
-        for (let name in this.program01.uniforms) {
-            let uniform = this.program01.uniforms[name];
+        for (let name of this.program.uniforms.keys()) {
+            let uniform = this.program.uniforms.get(name);
             uniformDivHtml += "<tr>";
             uniformDivHtml += `<td>${name}</td>`;
             uniformDivHtml += `<td>${uniform.size}</td>`;
