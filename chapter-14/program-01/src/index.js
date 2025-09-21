@@ -4,7 +4,7 @@ require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/slider.css');
 require('jquery-ui/themes/base/theme.css');
 
-import { createGlslProgram, useProgram, setupVertexAttribute } from './program.js';
+import { createGlslProgram, useProgram, setupVertexAttribute, GlProgram } from './program.js';
 import { createVertexBuffer, createIndexBuffer } from './vertex-index-buffer.js';
 import { drawElements } from './primitives.js'
 
@@ -42,6 +42,7 @@ class WebGLApp {
         let vertexShaderSource = await loadText("vertex-shader.vert");
         let fragmentShaderSource = await loadText("fragment-shader.frag");    
         this.program = createGlslProgram(this.gl, vertexShaderSource, fragmentShaderSource);
+        this.program01 = new GlProgram(this.gl, vertexShaderSource, fragmentShaderSource);
     }
 
     createBuffers() {
