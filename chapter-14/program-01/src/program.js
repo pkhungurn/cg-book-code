@@ -155,6 +155,12 @@ export class GlProgram{
         }        
     }
 
+    use(code) {
+        this.gl.useProgram(this.glObject);
+        code();
+        this.gl.useProgram(null);
+    }    
+
     uniform(name) {
         if (this.uniforms.has(name)) {
             return this.uniforms.get(name);
@@ -170,10 +176,4 @@ export class GlProgram{
             return null;
         }
     }
-
-    use(code) {
-        this.gl.useProgram(this.glObject);
-        code();
-        this.gl.useProgram(null);
-    }    
 }
