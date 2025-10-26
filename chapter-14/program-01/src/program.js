@@ -94,6 +94,7 @@ export class GlUniform {
     constructor(gl, program, index) {
         this.gl = gl;
         this.program = program;
+        this.index = index;
         
         let info = gl.getActiveUniform(program.glObject, index);
         this.name = info.name;
