@@ -1,4 +1,4 @@
-import { bindBuffer, createIndexBuffer, createVertexBuffer } from "./vertex-index-buffer.js";
+import { createIndexBuffer, createVertexBuffer } from "./vertex-index-buffer.js";
 
 
 export class PosColMesh {
@@ -27,5 +27,12 @@ export class PosColMesh {
   draw(program, vertPositionName="vert_position", vertColorName="vert_color") {
     this.setupVertexAttributes(program, vertPositionName, vertColorName);
     this.drawElements();
+  }
+}
+
+export class PosColMeshBuilder {
+  constructor() {
+    this.vertexData = []
+    this.indexData = []
   }
 }
