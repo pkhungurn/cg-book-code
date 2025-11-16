@@ -94,6 +94,7 @@ export class GlUniform {
     constructor(gl, program, index) {
         this.gl = gl;
         this.program = program;
+        this.index = index;
         
         let info = gl.getActiveUniform(program.glObject, index);
         this.name = info.name;
@@ -140,20 +141,26 @@ export class GlProgram{
         this.gl = gl;
         this.glObject = createGlslProgram(gl, vertexShaderSource, fragmentShaderSource);
 
-        this.attributes = new Map();
         let numAttributes = gl.getProgramParameter(this.glObject, gl.ACTIVE_ATTRIBUTES);
+        this.attributes = new Map();
         for (let index = 0; index < numAttributes; index++) {
             let attribute = new GlAttribute(gl, this, index);
             this.attributes.set(attribute.name, attribute);
         }
         
-        this.uniforms = new Map();        
         let numUniforms = gl.getProgramParameter(this.glObject, gl.ACTIVE_UNIFORMS);
+        this.uniforms = new Map();
         for (let index = 0; index < numUniforms; index++) {
             let uniform = new GlUniform(gl, this, index);
             this.uniforms.set(uniform.name, uniform);
         }        
     }
+
+    use(code) {
+        this.gl.useProgram(this.glObject);
+        code();
+        this.gl.useProgram(null);
+    }    
 
     uniform(name) {
         if (this.uniforms.has(name)) {
@@ -170,10 +177,4 @@ export class GlProgram{
             return null;
         }
     }
-
-    use(code) {
-        this.gl.useProgram(this.glObject);
-        code();
-        this.gl.useProgram(null);
-    }    
 }
