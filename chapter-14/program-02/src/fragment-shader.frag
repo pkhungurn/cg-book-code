@@ -2,7 +2,7 @@
 
 precision highp float;
 
-in vec3 geom_color;
+in vec4 geom_color;
 
 out vec4 fragColor;
 
@@ -25,5 +25,5 @@ vec3 linearToSrgb(vec3 color) {
 }
 
 void main() {
-    fragColor = vec4(linearToSrgb(geom_color), 1.0);
+    fragColor = vec4(linearToSrgb(geom_color.xyz), geom_color.w);
 }

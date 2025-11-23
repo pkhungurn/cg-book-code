@@ -7,6 +7,7 @@ require('jquery-ui/themes/base/theme.css');
 import { GlProgram } from './program.js';
 import { createVertexBuffer, createIndexBuffer } from './vertex-index-buffer.js';
 import { drawElements } from './primitives.js'
+import { PosColMesh, PosColMeshBuilder } from './pos-col-mesh.js';
 
 async function loadText(url) {
     let fetchResult = await fetch(url);
@@ -44,23 +45,23 @@ class WebGLApp {
     }
 
     createBuffers() {
-        let vertexData = [
-            -0.5, -0.5,       
-             1.0,  1.0, 0.0,
-             0.5, -0.5,
-             0.0,  1.0, 1.0,
-             0.5,  0.5,
-             1.0,  0.0, 1.0,
-            -0.5,  0.5,
-             1.0,  1.0, 1.0
-        ];
-        this.vertexBuffer = createVertexBuffer(this.gl, new Float32Array(vertexData));
+        let meshBuilder = new PosColMeshBuilder(this.gl);
+        
+        meshBuilder
+            .setColor(1.0, 1.0, 0.0, 1.0)
+            .addVertex(-0.5, -0.5, 0.0)
+            .setColor(0.0,  1.0, 1.0, 1.0)
+            .addVertex(0.5, -0.5, 0.0)
+            .setColor(1.0,  0.0, 1.0, 1.0)
+            .addVertex(0.5, 0.5, 0.0)
+            .setColor(1.0, 1.0, 1.0, 1.0)
+            .addVertex(-0.5, 0.5, 0.0);
+            
+        meshBuilder
+            .addIndices(0, 1, 2)
+            .addIndices(0, 2, 3);
 
-        let indexData = [
-            0, 1, 2,
-            0, 2, 3
-        ];
-        this.indexBuffer = createIndexBuffer(this.gl, new Int32Array(indexData));
+        this.mesh = meshBuilder.build();        
     }
 
     updateWebGL() {
@@ -74,11 +75,9 @@ class WebGLApp {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
         
         this.program.use(() => {
-            self.program.uniform("center")?.set2Float(centerX, centerY);            
+            self.program.uniform("center")?.set3Float(centerX, centerY, 0.0);
             self.program.uniform("scale")?.set1Float(scale);
-            self.program.attribute("vert_position")?.setup(self.vertexBuffer, 2, 4*5, 0);            
-            self.program.attribute("vert_color")?.setup(self.vertexBuffer, 3, 4*5, 4*2);
-            drawElements(self.gl, self.indexBuffer, self.gl.TRIANGLES, 6, 0);
+            self.mesh.draw(self.program);
         });        
         
         window.requestAnimationFrame(() => self.updateWebGL());

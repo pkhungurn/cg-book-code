@@ -1,4 +1,5 @@
 import { createIndexBuffer, createVertexBuffer } from "./vertex-index-buffer.js";
+import { drawElements } from "./primitives.js";
 
 
 export class PosColMesh {
@@ -21,8 +22,8 @@ export class PosColMesh {
   }
 
   setupVertexAttributes(program, vertPositionName="vert_position", vertColorName="vert_color") {
-    program.attribute(vertPositionName)?.setup(this.vertexBuffer, 3, 4*3, 0);
-    program.attribute(vertColorName)?.setup(this.vertexBuffer, 4, 4*4, 4*0);
+    program.attribute(vertPositionName)?.setup(this.positionBuffer, 3, 4*3, 0);
+    program.attribute(vertColorName)?.setup(this.colorBuffer, 4, 4*4, 4*0);
   }
 
   drawElements(mode=null, count=null, offset=0) {
@@ -74,6 +75,11 @@ export class PosColMeshBuilder {
 
   addIndex(index) {
     this.indexData.push(index);
+    return this;
+  }
+
+  addIndices(...indices) {
+    this.indexData.push(...indices);
     return this;
   }
 

@@ -1,15 +1,15 @@
 #version 300 es
 
-in vec2 vert_position;
-in vec3 vert_color;
+in vec3 vert_position;
+in vec4 vert_color;
 
 uniform float scale;
-uniform vec2 center;
+uniform vec3 center;
 
-out vec3 geom_color;
+out vec4 geom_color;
 
 void main() {
-    vec2 position = vert_position * scale + center;
-    gl_Position = vec4(position, 0, 1);    
+    vec3 position = vert_position * scale + center;
+    gl_Position = vec4(position, 1);    
     geom_color = vert_color;
 }
