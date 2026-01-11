@@ -75,7 +75,7 @@ class WebGLApp {
             self.program.uniform("center")?.set3Float(centerX, centerY, 0.0);
             self.program.uniform("scale")?.set1Float(scale);
             self.mesh.draw(self.program);
-        });        
+        });   
         
         window.requestAnimationFrame(() => self.updateWebGL());
     }
