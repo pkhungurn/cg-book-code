@@ -28,7 +28,7 @@ export class PosColMesh {
 
   drawElements(mode=null, count=null, offset=0) {
     if (mode === null) {
-      mode = this.gl.TRIANGLES;
+      mode = this.primitiveType;
     }
     if (count === null) {
       count = this.numIndices;
@@ -36,9 +36,9 @@ export class PosColMesh {
     drawElements(this.gl, this.indexBuffer, mode, count, offset);
   }
 
-  draw(program, vertPositionName="vert_position", vertColorName="vert_color") {
+  draw(program, vertPositionName="vert_position", vertColorName="vert_color", mode=null, count=null, offset=0) {
     this.setupVertexAttributes(program, vertPositionName, vertColorName);
-    this.drawElements();
+    this.drawElements(mode, count, offset);
   }
 }
 
