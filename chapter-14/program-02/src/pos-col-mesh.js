@@ -23,7 +23,7 @@ export class PosColMesh {
 
   setupVertexAttributes(program, vertPositionName="vert_position", vertColorName="vert_color") {
     program.attribute(vertPositionName)?.setup(this.positionBuffer, 3, 4*3, 0);
-    program.attribute(vertColorName)?.setup(this.colorBuffer, 4, 4*4, 4*0);
+    program.attribute(vertColorName)?.setup(this.colorBuffer, 4, 4*4, 0);
   }
 
   drawElements(mode=null, count=null, offset=0) {
