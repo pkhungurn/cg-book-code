@@ -52,16 +52,16 @@ export class PosColMeshBuilder {
     this.primitiveType = gl.TRIANGLES;
   }
 
-  setColor(r, g, b, a) {
-    this.color = [r, g, b, a];
-    return this;
-  }
-
   setPrimitiveType(primitiveType) {
     if (primitiveType != gl.POINTS && primitiveType != gl.LINES && primitiveType != gl.TRIANGLES) {
       throw Error(`Primitive type ${primitiveType} is not supported.`);      
     }
     this.primitiveType = primitiveType;
+    return this;
+  }
+
+  setColor(r, g, b, a) {
+    this.color = [r, g, b, a];
     return this;
   }
   
