@@ -3,15 +3,33 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Chapter 14 Program 2: Abstracting Meshes</title>
+    <title>Chapter 14 Program 3: Building and Rendering Multiple Meshes</title>
 </head>
 
 <body>
-    <h1>Chapter 14 Program 2: Abstracting Meshes</h1>
+    <h1>Chapter 14 Program 3: Building and Rendering Multiple Meshes</h1>
 
     <canvas id="webglCanvas" style="border: none; background-color: black;" width="512" height="512"></canvas><br>
 
     <table cellpadding="5">
+        <tr>
+            <td align="right">Mesh:</td>
+            <td width="300">
+                <select id="meshId">
+                    <option value="0" selected="selected">House</option>
+                    <option value="1">Star (3 spikes)</option>
+                    <option value="2">Star (4 spikes)</option>
+                    <option value="3">Star (5 spikes)</option>
+                    <option value="4">Star (6 spikes)</option>
+                    <option value="5">Star (7 spikes)</option>
+                    <option value="6">Star (8 spikes)</option>
+                    <option value="7">Star (9 spikes)</option>
+                    <option value="8">Star (10 spikes)</option>
+                    <option value="9">Star (11 spikes)</option>
+                    <option value="10">Star (12 spikes)</option>
+                </select>
+            </td>
+        </tr>
         <tr>
             <td align="right">Center X:</td>
             <td width="300"><div id="centerXSlider"></div></td>

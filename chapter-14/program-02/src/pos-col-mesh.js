@@ -54,7 +54,7 @@ export class PosColMeshBuilder {
   }
 
   setPrimitiveType(primitiveType) {
-    if (primitiveType != gl.POINTS && primitiveType != gl.LINES && primitiveType != gl.TRIANGLES) {
+    if (primitiveType != this.gl.POINTS && primitiveType != this.gl.LINES && primitiveType != this.gl.TRIANGLES) {
       throw Error(`Primitive type ${primitiveType} is not supported.`);      
     }
     this.primitiveType = primitiveType;
