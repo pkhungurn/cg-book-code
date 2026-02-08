@@ -184,14 +184,14 @@ class WebGLApp {
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
-        // Use the program.
+        // Get the mesh ID.
         let meshId = parseInt($("#meshId").val());
         
         this.program.use(() => {
             self.program.uniform("center")?.set3Float(centerX, centerY, 0.0);
             self.program.uniform("scale")?.set1Float(scale);
             self.meshes[meshId].draw(self.program);
-        });   
+        });
         
         window.requestAnimationFrame(() => self.updateWebGL());
     }
